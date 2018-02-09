@@ -1,2 +1,2 @@
 const app = new Application();
-app.renderSourceList();
+app.init();

@@ -19,6 +19,7 @@ class ArticleList {
       a.style.backgroundImage = `url(${article.urlToImage})`;
       a.href = article.url;
       a.text = article.title;
+      a.className = 'article';
       articleContainer.appendChild(a);
     });
     return articleContainer;

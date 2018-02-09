@@ -8,7 +8,7 @@ class Application {
     };
   }
 
-  async renderSourceList() {
+  async init() {
     const sources = await SourceList.getSourceList(this.sourcesListUrl);
     document.body.appendChild(SourceList.getDomElement(sources));
   }
