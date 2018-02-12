@@ -1,28 +1,33 @@
 class SourceList {
-  static getSourceList(url) {
+  getSourceList(url) {
     return fetch(url)
       .then(response => response.json())
-      .then(response => response.sources);
+      .then(response => response.sources)
+      .catch(err => console.log(err));
   }
 
-  static getDomElement(srcArr) {
+  getDomElement(sources, appDiv, articlesContainer, apiKey) {
     const ul = document.createElement('ul');
     ul.className = 'source-list';
-    srcArr.forEach((src) => {
+    sources.forEach((src) => {
       const li = document.createElement('li');
       li.id = src.id;
       li.innerHTML = src.name;
-      li.onclick = async () => {
-        const articlesContainer = document.getElementById('articles');
-        if (articlesContainer) {
-          document.body.removeChild(articlesContainer);
-        }
-        const { articles } = await ArticleList.loadArticles(src.id, '79bcf63b008145a5913ed908010d69ea');
-        document.body.appendChild(ArticleList.renderArticles(articles));
-      };
+      li.onclick = this.renderArticleList.bind(li, src, appDiv, articlesContainer, apiKey);
       ul.appendChild(li);
     });
 
     return ul;
   }
+
+  async renderArticleList(src, appDiv, articlesContainer, apiKey) {
+    const articleList = new ArticleList();
+    const { articles } = await articleList.loadArticles(src.id, apiKey);
+
+    if (articlesContainer.getElementsByClassName('article').length > 0) {
+      articlesContainer.innerHTML = '';
+    }
+    articlesContainer.appendChild(articleList.getDomElement(articles));
+  }
+
 }
