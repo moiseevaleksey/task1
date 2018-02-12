@@ -11,8 +11,10 @@ class SourceList {
     ul.className = 'source-list';
     sources.forEach((source) => {
       const li = document.createElement('li');
+      const span = document.createElement('span');
       li.id = source.id;
-      li.innerHTML = source.name;
+      span.innerHTML = source.name;
+      li.appendChild(span);
       li.onclick = this.renderArticleList.bind(li, { source, appDiv, articlesContainer, apiKey });
       ul.appendChild(li);
     });
