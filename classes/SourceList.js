@@ -1,5 +1,5 @@
 class SourceList {
-  getSourceList({url}) {
+  getSourceList({ url }) {
     return fetch(url)
       .then(response => response.json())
       .then(response => response.sources)
@@ -9,25 +9,26 @@ class SourceList {
   getDomElement({ sources, appDiv, articlesContainer, apiKey }) {
     const ul = document.createElement('ul');
     ul.className = 'source-list';
-    sources.forEach((src) => {
+    sources.forEach((source) => {
       const li = document.createElement('li');
-      li.id = src.id;
-      li.innerHTML = src.name;
-      li.onclick = this.renderArticleList.bind(li, { src, appDiv, articlesContainer, apiKey });
+      li.id = source.id;
+      li.innerHTML = source.name;
+      li.onclick = this.renderArticleList.bind(li, { source, appDiv, articlesContainer, apiKey });
       ul.appendChild(li);
     });
 
     return ul;
   }
 
-  async renderArticleList({ src, appDiv, articlesContainer, apiKey }) {
+  async renderArticleList({ source, appDiv, articlesContainer, apiKey }) {
     const articleList = new ArticleList();
-    const { articles } = await articleList.loadArticles({ sourceId: src.id, apiKey });
-
+    const { articles } = await articleList.loadArticles({ sourceId: source.id, apiKey });
     if (articlesContainer.getElementsByClassName('article').length > 0) {
+      console.log('articles was cleared');
       articlesContainer.innerHTML = '';
     }
-    articlesContainer.appendChild(articleList.getDomElement({ articles }));
+    const fragment = articleList.getDomElement({ articles });
+    articlesContainer.appendChild(fragment);
+    appDiv.appendChild(articlesContainer);
   }
-
 }

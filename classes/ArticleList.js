@@ -7,17 +7,17 @@ class ArticleList {
   }
 
   getDomElement({ articles }) {
-    const articleContainer = document.createElement('div');
-    articleContainer.id = 'articles';
+    const fragment = document.createDocumentFragment();
+    fragment.id = 'articles';
     articles.forEach((article) => {
       const a = document.createElement('a');
       a.style.backgroundImage = `url(${article.urlToImage})`;
       a.href = article.url;
       a.text = article.title;
       a.className = 'article';
-      articleContainer.appendChild(a);
+      fragment.appendChild(a);
     });
 
-    return articleContainer;
+    return fragment;
   }
 }
