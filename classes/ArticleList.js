@@ -1,12 +1,12 @@
 class ArticleList {
-  loadArticles(sourceId, apiKey) {
+  loadArticles({ sourceId, apiKey }) {
     return fetch(`https://newsapi.org/v1/articles?apiKey=${apiKey}&source=${sourceId}`)
       .then(response => response.json())
       .then(response => response)
       .catch(err => console.log(err));
   }
 
-  getDomElement(articles) {
+  getDomElement({ articles }) {
     const articleContainer = document.createElement('div');
     articleContainer.id = 'articles';
     articles.forEach((article) => {
